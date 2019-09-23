@@ -1,0 +1,6 @@
+
+target/archive-tmp/
+uipro/target/generated-sources/
+uipro/target/generated-test-sources/
+!/.idea/
+*/target/*

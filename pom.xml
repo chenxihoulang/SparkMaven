@@ -269,19 +269,6 @@
                         <configuration>
                             <target>
                                 <echo>clean phase</echo>
-
-                                <!--展示maven相关的classpath-->
-                                <property name="compile_classpath"
-                                    refid="maven.compile.classpath" />
-                                <property name="runtime_classpath"
-                                    refid="maven.runtime.classpath" />
-                                <property name="test_classpath" refid="maven.test.classpath" />
-                                <property name="plugin_classpath" refid="maven.plugin.classpath" />
-
-                                <echo message="compile classpath: ${compile_classpath}" />
-                                <echo message="runtime classpath: ${runtime_classpath}" />
-                                <echo message="test classpath:    ${test_classpath}" />
-                                <echo message="plugin classpath:  ${plugin_classpath}" />
                             </target>
                         </configuration>
                     </execution>
