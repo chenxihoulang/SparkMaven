@@ -1,6 +1,27 @@
+### Maven template
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
 
-target/archive-tmp/
-uipro/target/generated-sources/
-uipro/target/generated-test-sources/
-!/.idea/
-*/target/*
+### Scala template
+*.class
+*.log
+
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+src/test/resources/
+src/test/scala/com/chw/java/
