@@ -23,5 +23,3 @@ buildNumber.properties
 *.iml
 out
 gen
-src/test/resources/
-src/test/scala/com/chw/java/

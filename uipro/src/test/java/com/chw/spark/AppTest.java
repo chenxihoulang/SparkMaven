@@ -1,4 +1,4 @@
-package com.bjsxt.spark;
+package com.chw.spark;
 
 import static org.junit.Assert.assertTrue;
 
