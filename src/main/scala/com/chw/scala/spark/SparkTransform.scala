@@ -11,8 +11,8 @@ object SparkTransform {
 
     val sc = new SparkContext(conf)
 
-    val nameRdd = sc.parallelize(List[(String, Int)](("zhangsan", 18), ("wangwu", 19), ("lisi", 18), ("chw", 100)), 3)
-    val scoreRdd = sc.parallelize(List[(String, Int)](("zhangsan", 100), ("wangwu", 200), ("lisi", 180), ("maliu", 90)), 4)
+    //    val nameRdd = sc.parallelize(List[(String, Int)](("zhangsan", 18), ("wangwu", 19), ("lisi", 18), ("chw", 100)), 3)
+    //    val scoreRdd = sc.parallelize(List[(String, Int)](("zhangsan", 100), ("wangwu", 200), ("lisi", 180), ("maliu", 90)), 4)
 
 
     //    val leftJoinRdd: RDD[(String, (Int, Option[Int]))] = nameRdd.leftOuterJoin(scoreRdd)
@@ -48,7 +48,7 @@ object SparkTransform {
     //    println(unionRdd.getNumPartitions)
 
 
-    val rdd: RDD[String] = sc.parallelize(List("hello1", "hello2", "hello3", "hello4", "hello5", "hello6"), 2)
+    //    val rdd: RDD[String] = sc.parallelize(List("hello1", "hello2", "hello3", "hello4", "hello5", "hello6"), 2)
     //    rdd.map(one => {
     //      println("建立连接...")
     //      println(s"插入数据...$one")
@@ -56,35 +56,55 @@ object SparkTransform {
     //      one + "#"
     //    }).count()
 
-//    rdd.mapPartitions(iter => {
-//
-//      println("建立连接...")
-//      val list = ListBuffer[String]()
-//      while (iter.hasNext) {
-//        val item = iter.next()
-//        list += item
-//
-//        println(s"插入数据...$item")
-//      }
-//
-//      println("关闭连接")
-//
-//      list.iterator
-//    }, false)
-//      .count()
+    //    rdd.mapPartitions(iter => {
+    //
+    //      println("建立连接...")
+    //      val list = ListBuffer[String]()
+    //      while (iter.hasNext) {
+    //        val item = iter.next()
+    //        list += item
+    //
+    //        println(s"插入数据...$item")
+    //      }
+    //
+    //      println("关闭连接")
+    //
+    //      list.iterator
+    //    }, false)
+    //      .count()
 
-    rdd.foreachPartition(iter => {
-      println("建立连接...")
-      val list = ListBuffer[String]()
-      while (iter.hasNext) {
-        val item = iter.next()
-        list += item
+    //    rdd.foreachPartition(iter => {
+    //      println("建立连接...")
+    //      val list = ListBuffer[String]()
+    //      while (iter.hasNext) {
+    //        val item = iter.next()
+    //        list += item
+    //
+    //        println(s"插入数据...$item")
+    //      }
+    //
+    //      println("关闭连接")
+    //    })
 
-        println(s"插入数据...$item")
-      }
+    //    val rdd: RDD[String] = sc.parallelize(List("a", "b", "a", "c", "d", "d"))
+    //    rdd.map((_, 1))
+    //      .reduceByKey((v1, v2) => v1 + v2)
+    //      .map(_._1)
+    //      .foreach(println)
+    //
+    //    rdd.distinct().foreach(println)
 
-      println("关闭连接")
+    val nameRdd = sc.parallelize(List[(String, Int)](("zhangsan", 18), ("zhangsan", 180), ("zhangsan", 1800), ("wangwu", 19), ("lisi", 18), ("lisi", 300), ("chw", 100)), 3)
+    val scoreRdd = sc.parallelize(List[(String, Int)](("zhangsan", 100), ("zhangsan", 1000), ("wangwu", 200), ("lisi", 180), ("maliu", 90), ("maliu", 900)), 4)
+    val cogroupRdd: RDD[(String, (Iterable[Int], Iterable[Int]))] = nameRdd.cogroup(scoreRdd)
+
+    //    cogroupRdd.foreach(println)
+    cogroupRdd.foreach(iter => {
+      val ages = iter._2._1
+      val scores = iter._2._2
+
+      ages.foreach(println)
+      scores.foreach(println)
     })
-
   }
 }
