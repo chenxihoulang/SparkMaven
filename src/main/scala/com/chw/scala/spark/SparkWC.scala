@@ -1,5 +1,6 @@
 package com.chw.scala.spark
 
+import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 
 /**
@@ -17,7 +18,7 @@ object SparkWC {
     sc.setLogLevel("error")
 
     val txtFile = "input.txt"
-    val txtData = sc.textFile(txtFile)
+    val txtData: RDD[String] = sc.textFile(txtFile)
 
 //    val txtData=sc.parallelize(Array("one","two","three","one"))
 
