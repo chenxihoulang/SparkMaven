@@ -215,22 +215,22 @@
 
 
             <!-- 以上assembly可以将依赖的包打入到一个jar包中，下面这种方式是使用maven原生的方式打jar包，不将依赖的包打入到最终的jar包中-->
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-jar-plugin</artifactId>-->
-            <!--                <version>3.1.2</version>-->
-            <!--                <configuration>-->
-            <!--                    &lt;!&ndash;参考 https://maven.apache.org/shared/maven-archiver/index.html&ndash;&gt;-->
-            <!--                    <archive>-->
-            <!--                        <manifest>-->
-            <!--                            <addClasspath>true</addClasspath>-->
-            <!--                            &lt;!&ndash; 指定当前主类运行时找依赖的jar包时 所有依赖的jar包存放路径的前缀 &ndash;&gt;-->
-            <!--                            <classpathPrefix>/alljars/lib</classpathPrefix>-->
-            <!--                            <mainClass>com.chw.scala.spark.SparkWC</mainClass>-->
-            <!--                        </manifest>-->
-            <!--                    </archive>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-jar-plugin</artifactId>-->
+<!--                <version>3.1.2</version>-->
+<!--                <configuration>-->
+<!--                    &lt;!&ndash;参考 https://maven.apache.org/shared/maven-archiver/index.html&ndash;&gt;-->
+<!--                    <archive>-->
+<!--                        <manifest>-->
+<!--                            <addClasspath>true</addClasspath>-->
+<!--                            &lt;!&ndash; 指定当前主类运行时找依赖的jar包时 所有依赖的jar包存放路径的前缀 &ndash;&gt;-->
+<!--&lt;!&ndash;                            <classpathPrefix>/alljars/lib</classpathPrefix>&ndash;&gt;-->
+<!--                            <mainClass>com.chw.scala.spark.SparkWC</mainClass>-->
+<!--                        </manifest>-->
+<!--                    </archive>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
 
 
             <!-- 拷贝依赖的jar包到lib目录 -->
