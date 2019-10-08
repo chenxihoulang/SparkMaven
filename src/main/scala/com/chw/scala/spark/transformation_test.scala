@@ -1,6 +1,7 @@
 package com.chw.scala.spark
 
 import org.apache.spark.rdd.RDD
+import org.apache.spark.util.AccumulatorV2
 import org.apache.spark.{SparkConf, SparkContext}
 
 object transformation_test {
@@ -77,4 +78,18 @@ object transformation_test {
   }
 }
 
+
+class DoubleSumIntAccumulatorV2 extends AccumulatorV2[Int,Int]{
+  override def isZero: Boolean = ???
+
+  override def copy(): AccumulatorV2[Int, Int] = ???
+
+  override def reset(): Unit = ???
+
+  override def add(v: Int): Unit = ???
+
+  override def merge(other: AccumulatorV2[Int, Int]): Unit = ???
+
+  override def value: Int = ???
+}
 

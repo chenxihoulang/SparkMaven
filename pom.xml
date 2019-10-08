@@ -174,10 +174,24 @@
                 <!--是否从该插件下载Maven扩展（例如打包和类型处理器），由于性能原因，只有在真需要下载时，该元素才被设置成enabled。 -->
                 <executions>
                     <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
                         <!--配置的执行目标,没有绑定任何构建阶段的目标可以在构建生命周期之外被直接调用执行。-->
                         <goals>
                             <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
                             <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>compile</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -193,14 +207,15 @@
                     <!-- 设置false后是去掉 MySpark-1.0-SNAPSHOT-jar-with-dependencies.jar 后的 “-jar-with-dependencies” -->
                     <!--<appendAssemblyId>false</appendAssemblyId>-->
                     <descriptorRefs>
+                        <!--jar包的后缀名-->
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.chw.scala.spark.SparkWC
-                            </mainClass>
-                        </manifest>
-                    </archive>
+                    <!--                    <archive>-->
+                    <!--                        <manifest>-->
+                    <!--                            <mainClass>com.chw.scala.spark.SparkWC-->
+                    <!--                            </mainClass>-->
+                    <!--                        </manifest>-->
+                    <!--                    </archive>-->
                 </configuration>
                 <executions>
                     <execution>
@@ -215,22 +230,22 @@
 
 
             <!-- 以上assembly可以将依赖的包打入到一个jar包中，下面这种方式是使用maven原生的方式打jar包，不将依赖的包打入到最终的jar包中-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-jar-plugin</artifactId>-->
-<!--                <version>3.1.2</version>-->
-<!--                <configuration>-->
-<!--                    &lt;!&ndash;参考 https://maven.apache.org/shared/maven-archiver/index.html&ndash;&gt;-->
-<!--                    <archive>-->
-<!--                        <manifest>-->
-<!--                            <addClasspath>true</addClasspath>-->
-<!--                            &lt;!&ndash; 指定当前主类运行时找依赖的jar包时 所有依赖的jar包存放路径的前缀 &ndash;&gt;-->
-<!--&lt;!&ndash;                            <classpathPrefix>/alljars/lib</classpathPrefix>&ndash;&gt;-->
-<!--                            <mainClass>com.chw.scala.spark.SparkWC</mainClass>-->
-<!--                        </manifest>-->
-<!--                    </archive>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.2</version>
+                <configuration>
+                    <!--参考 https://maven.apache.org/shared/maven-archiver/index.html-->
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <!-- 指定当前主类运行时找依赖的jar包时 所有依赖的jar包存放路径的前缀 -->
+                            <!--<classpathPrefix>/alljars/lib</classpathPrefix>-->
+                            <mainClass>com.chw.scala.spark.RDDOperation</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
 
 
             <!-- 拷贝依赖的jar包到lib目录 -->
