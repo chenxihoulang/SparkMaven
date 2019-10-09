@@ -1,7 +1,7 @@
 package com.chw.scala.spark.kafka
 
 import com.chw.scala.spark.kafka.Producer.props
-import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord}
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
@@ -24,14 +24,14 @@ object KafkaOperation extends App {
 
   // Create direct kafka stream with brokers and topics
   val kafkaParams = Map[String, Object](
-    "bootstrap.servers" -> "localhost:9091,localhost:9092", //服务器地址
-    "key.deserializer" -> classOf[StringDeserializer], //序列化类型
-    "value.deserializer" -> classOf[StringDeserializer],
-    "group.id" -> "kafkaOperationGroup", //group设置,消费者所属的组
+    ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG -> "localhost:9091,localhost:9092", //服务器地址
+    ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG -> classOf[StringDeserializer], //序列化类型
+    ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG -> classOf[StringDeserializer],
+    ConsumerConfig.GROUP_ID_CONFIG -> "kafkaOperationGroup", //group设置,消费者所属的组
     //发出请求时传递给服务器的 ID 字符串。这样做的目的是为了在服务端的请求日志中能够通过逻辑应用名称来跟踪请求的来源，而不是只能通过IP和端口号跟进。
-    "client.id" -> "kafkaGenerator",
-    "auto.offset.reset" -> "latest", //从最新的offset开始
-    "enable.auto.commit" -> (false: java.lang.Boolean)) //不自动提交
+    ConsumerConfig.CLIENT_ID_CONFIG -> "kafkaGenerator",
+    ConsumerConfig.AUTO_OFFSET_RESET_CONFIG -> "latest", //从最新的offset开始
+    ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG -> (false: java.lang.Boolean)) //不自动提交
 
   //根据broker和topic创建直接通过kafka连接Driect Kafka
   val kafkaDirectStream: InputDStream[ConsumerRecord[String, String]] =
