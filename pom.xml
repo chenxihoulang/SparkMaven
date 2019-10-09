@@ -73,6 +73,12 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.47</version>
         </dependency>
+        <dependency><!-- MySQL 连接池依赖包 -->
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
+        </dependency>
+
         <!--SparkStreaming-->
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -211,6 +217,14 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source><!-- 设置Java源 -->
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
             <!-- maven 打jar包需要插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -252,9 +266,12 @@
                     <!--参考 https://maven.apache.org/shared/maven-archiver/index.html-->
                     <archive>
                         <manifest>
+                            <!-- 添加类路径 -->
                             <addClasspath>true</addClasspath>
                             <!-- 指定当前主类运行时找依赖的jar包时 所有依赖的jar包存放路径的前缀 -->
                             <!--<classpathPrefix>/alljars/lib</classpathPrefix>-->
+
+                            <!-- 设置程序的入口类 -->
                             <mainClass>com.chw.scala.spark.RDDOperation</mainClass>
                         </manifest>
                     </archive>
