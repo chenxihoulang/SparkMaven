@@ -67,6 +67,13 @@
             <artifactId>spark-hive_2.11</artifactId>
             <version>2.3.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase</artifactId>
+            <version>1.2.6</version>
+            <type>pom</type>
+        </dependency>
+
         <!--mysql依赖的jar包-->
         <dependency>
             <groupId>mysql</groupId>
