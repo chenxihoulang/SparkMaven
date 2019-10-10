@@ -24,8 +24,11 @@ object MysqlService extends Serializable {
           partitionRecords.foreach(record => {
             log.info(">>>>>>>" + record)
             val createTime = System.currentTimeMillis()
+
+            //创建数据库表,按月份创建表
             var sql = s"CREATE TABLE if not exists `word_count_${TimeParse.timeStamp2String(createTime, "yyyyMM")}`(`id` int(11) NOT NULL AUTO_INCREMENT,`word` varchar(64) NOT NULL,`count` int(11) DEFAULT '0',`date` date NOT NULL, PRIMARY KEY (`id`), UNIQUE KEY `word` (`word`,`date`) ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;"
             statement.addBatch(sql)
+            //插入数据,如果重复,则将词频数量count值进行增加
             sql = s"insert into word_count_${TimeParse.timeStamp2String(createTime, "yyyyMM")} (word, count, date) values ('${record._1}',${record._2},'${TimeParse.timeStamp2String(createTime, "yyyy-MM-dd")}') on duplicate key update count=count+values(count);"
             statement.addBatch(sql)
             log.warn(s"[recordAddBatchSuccess] record: ${record._1}, ${record._2}")
@@ -48,13 +51,14 @@ object MysqlService extends Serializable {
   }
 
   /**
-   * 加载管理员和用户词库
+   * 加载管理员和用户词库,所有需要进行词频统计的次
    */
   def getUserWords(): HashSet[String] = {
     val preTime = System.currentTimeMillis
     val sql = "select distinct(word) from user_words"
     val conn = MysqlManager.getMysqlManager.getConnection
     val statement = conn.createStatement
+
     try {
       val rs = statement.executeQuery(sql)
       val words = HashSet[String]()

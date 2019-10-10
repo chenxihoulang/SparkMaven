@@ -1,4 +1,5 @@
 package com.chw.scala.spark.word_freq_kafka_mysql.service
+
 import com.chw.scala.spark.word_freq_kafka_mysql.util.Conf
 import org.apache.log4j.LogManager
 import scalaj.http._
@@ -21,14 +22,17 @@ object SegmentService extends Serializable {
     } else {
       val postUrl = Conf.segmentorHost + "/token/"
       try {
+        //分词,如果出现错误,自动重试,最多重试3次
         val wordsSet = retry(3)(segment(postUrl, record))
         log.warn(s"[mapSegmentSuccess] record: ${record}\ttime elapsed: ${System.currentTimeMillis - preTime}")
+
         // 进行词语统计
         val keyCount = Map[String, Int]()
         for (word <- wordDic) {
           if (wordsSet.contains(word))
             keyCount += word -> 1
         }
+
         log.warn(s"[keyCountSuccess] words size: ${wordDic.size} (entitId_createTime_word_language, 1):\n${keyCount.mkString("\n")}")
         keyCount
       } catch {
@@ -42,10 +46,14 @@ object SegmentService extends Serializable {
 
   def segment(url: String, content: String): HashSet[String] = {
     val timer = System.currentTimeMillis()
+    //获取分词服务响应
     var response = Http(url + content).asString
     val dur = System.currentTimeMillis() - timer
+
     if (dur > 20) // 输出耗时较长的请求
       log.warn(s"[longVisit]>>>>>> api: ${url}${content}\ttimer: ${dur}")
+
+    //分词结果去重
     val words = HashSet[String]()
     response.code match {
       case 200 => {
@@ -73,21 +81,18 @@ object SegmentService extends Serializable {
   }
 
   /**
-   * retry common function
-   * @param n
-   * @param fn
-   * @return
+   * 尾递归重试方法
    */
   @annotation.tailrec
   def retry[T](n: Int)(fn: => T): T = {
-    util.Try { fn } match {
+    util.Try(fn) match {
       case util.Success(x) => x
       case _ if n > 1 => {
         log.warn(s"[retry ${n}]")
         retry(n - 1)(fn)
       }
       case util.Failure(e) => {
-        log.error(s"[segError] API retry 3 times fail!!!!! T^T召唤神龙吧！", e)
+        log.error(s"API retry 3 times fail!", e)
         throw e
       }
     }

@@ -12,12 +12,13 @@ object Conf extends Serializable {
   val segmentorHost = "http://localhost:8282"
 
   // spark configuration
-  val master = "spark://localhost:7077"
-  val localDir = "/Users/xiaolitao/Program/scala/data/tmp"
+//  val master = "spark://localhost:7077"
+  val master = "local[2]"
+  val localDir = "/Users/chaihongwei/maven/demo/SparkMaven/data/tmp"
   val perMaxRate = "5"
   val interval = 3 // seconds
   val parallelNum = "15"
-  val executorMem = "1G"
+  val executorMem = "1g"
   val concurrentJobs = "5"
   val coresMax = "3"
 
@@ -25,7 +26,7 @@ object Conf extends Serializable {
   val brokers = "localhost:9091,localhost:9092"
   val zk = "localhost:2181"
   val group = "wordFreqGroup"
-  val topics = "test"
+  val topics = "GameUserComment"
 
   // mysql configuration
   val mysqlConfig = Map("url" -> "jdbc:mysql://localhost:3306/spark?characterEncoding=UTF-8", "username" -> "root", "password" -> "123456")
