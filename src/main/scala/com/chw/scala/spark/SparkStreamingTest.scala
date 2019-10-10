@@ -20,18 +20,18 @@ object SparkStreamingTest extends App {
 
   private val value1: DStream[(Int, String)] = value.transform(one => {
     println("transform")
-    one.map(t=>(t._2,t._1))
+    one.map(t => (t._2, t._1))
   })
 
-//  value1.foreachRDD(rdd => {
-//    println("diver端执行")
-//
-//    rdd.foreach(one => {
-//      println(s"executor端执行:${one._1},${one._2}")
-//    })
-//  })
+  //  value1.foreachRDD(rdd => {
+  //    println("diver端执行")
+  //
+  //    rdd.foreach(one => {
+  //      println(s"executor端执行:${one._1},${one._2}")
+  //    })
+  //  })
 
-  value1.foreachRDD((rdd,time)=>{
+  value1.foreachRDD((rdd, time) => {
     println(s"diver端执行:$time")
 
     rdd.foreach(one => {

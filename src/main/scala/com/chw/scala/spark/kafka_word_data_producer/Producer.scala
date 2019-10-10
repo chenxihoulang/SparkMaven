@@ -1,8 +1,7 @@
-package com.chw.scala.spark.kafka_data_producer
+package com.chw.scala.spark.kafka_word_data_producer
 
 import java.util.Properties
 
-import com.chw.scala.spark.kafka.Producer.rnd
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 
 import scala.io.BufferedSource

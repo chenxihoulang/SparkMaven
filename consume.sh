@@ -1,1 +1,1 @@
-java -cp target/wordFreqGenerator-1.0-jar-with-dependencies.jar sparkstreaming_action.producer.main.ConsumerTest localhost:9091,localhost:9092 test_group test
+java -cp target/wordFreqGenerator-1.0-jar-with-dependencies.jar com.chw.scala.spark.kafak_behavior_data_producer.ConsumerTest localhost:9091,localhost:9092 test_group test

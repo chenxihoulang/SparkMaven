@@ -13,7 +13,6 @@ buildNumber.properties
 
 ### Scala template
 *.class
-*.log
 
 ### Example user template template
 ### Example user template
@@ -23,3 +22,8 @@ buildNumber.properties
 *.iml
 out
 gen
+spark-warehouse/
+src/main/scala/com/chw/scala/spark/userbehavior/
+tmp/
+20180101.log
+20180102.log
