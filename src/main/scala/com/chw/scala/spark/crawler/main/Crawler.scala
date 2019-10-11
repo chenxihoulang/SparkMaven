@@ -55,8 +55,11 @@ object Crawler {
         val url = s"https://www.taptap.com/app/$game_id/review?order=default&page=$page#review-list"
         println(url)
 
+        //获取网页内容
         val html = Source.fromURL(url).mkString
+
         val rs = html.evalXPath[List[String]](xp"//div[@class='item-text-body']/p")
+
         if (rs.isRight)
           reviews ++= rs.right.get
       }

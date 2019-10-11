@@ -83,6 +83,12 @@
             <version>1.2.6</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-dbutils</groupId>
+            <artifactId>commons-dbutils</artifactId>
+            <version>1.7</version>
+        </dependency>
+
         <!--mysql依赖的jar包-->
         <dependency>
             <groupId>mysql</groupId>
@@ -234,6 +240,17 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.xml</include>
+                    <include>*.properties</include>
+                    <include>*.txt</include>
+                </includes>
+            </resource>
+        </resources>
+
         <!--文档插件-->
         <pluginManagement>
             <plugins>
