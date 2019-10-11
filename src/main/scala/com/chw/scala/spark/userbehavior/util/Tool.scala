@@ -1,4 +1,4 @@
-package sparkstreaming_action.userbehavior.util
+package com.chw.scala.spark.userbehavior.util
 
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream

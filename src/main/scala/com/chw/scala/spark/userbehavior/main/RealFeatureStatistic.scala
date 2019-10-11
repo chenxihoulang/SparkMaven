@@ -1,4 +1,4 @@
-package sparkstreaming_action.userbehavior.main
+package com.chw.scala.spark.userbehavior.main
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -10,8 +10,8 @@ import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
 import org.apache.spark.streaming.kafka010.KafkaUtils
 import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
 
-import sparkstreaming_action.userbehavior.dao.RedisDao
-import sparkstreaming_action.userbehavior.util.Conf
+import com.chw.scala.spark.userbehavior.dao.RedisDao
+import com.chw.scala.spark.userbehavior.util.Conf
 
 // 主函数入口
 object RealFeatureStat {

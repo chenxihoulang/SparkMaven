@@ -1,4 +1,4 @@
-package sparkstreaming_action.userbehavior.dao
+package com.chw.scala.spark.userbehavior.dao
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.exceptions.JedisConnectionException
 import redis.clients.jedis.Response
@@ -6,9 +6,9 @@ import scala.collection.mutable.ArrayBuffer
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-import sparkstreaming_action.userbehavior.util.Conf
-import sparkstreaming_action.userbehavior.util.Tool
-import sparkstreaming_action.userbehavior.util.RedisUtil
+import com.chw.scala.spark.userbehavior.util.Conf
+import com.chw.scala.spark.userbehavior.util.Tool
+import com.chw.scala.spark.userbehavior.util.RedisUtil
 
 object RedisDao {
   def constructKey(uid: String) = uid + "_freq"

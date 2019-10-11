@@ -1,4 +1,4 @@
-package sparkstreaming_action.userbehavior.util
+package com.chw.scala.spark.userbehavior.util
 
 import redis.clients.jedis.exceptions.JedisConnectionException
 import redis.clients.jedis.Jedis

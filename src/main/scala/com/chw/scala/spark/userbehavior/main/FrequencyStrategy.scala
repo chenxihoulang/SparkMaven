@@ -1,7 +1,7 @@
-package sparkstreaming_action.userbehavior.main
+package com.chw.scala.spark.userbehavior.main
 
 import scala.collection.mutable.ArrayBuffer
-import sparkstreaming_action.userbehavior.util.Conf
+import com.chw.scala.spark.userbehavior.util.Conf
 
 /**
  * 利用mapWithState时需要依赖的State设计
@@ -11,20 +11,12 @@ class FrequencyStrategy extends RealStrategy {
 
   override def getKeyFields = Array(Conf.INDEX_LOG_USER, Conf.INDEX_LOG_ITEM)
 
-  /**
-   * 更新时间戳数组
-   * @param log batch样本
-   * @param previous 时间戳数组
-   * @return
-   */
   override def update(log: Seq[Array[String]], previous: ArrayBuffer[Long]) = {
     var logTime = log.map(_(Conf.INDEX_LOG_TIME).toLong)
     if (logTime.length > MAX) {
       println("exceed max length:\n" + log.map { _.mkString("\t") }.mkString("\n"))
     }
-
     logTime = logTime.slice(logTime.length - MAX, logTime.length)
-
     val x = previous
     var status = trim(x)
 

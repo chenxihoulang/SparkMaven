@@ -1,7 +1,5 @@
 package com.chw.scala.spark
 
-import com.chw.scala.spark.MapWithState_UpdateStateByKey.Foo
-
 object UnderLine_Use extends App {
 
   def printArgs(ages: Int*) {

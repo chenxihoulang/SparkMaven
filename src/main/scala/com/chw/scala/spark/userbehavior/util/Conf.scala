@@ -1,4 +1,4 @@
-package sparkstreaming_action.userbehavior.util
+package com.chw.scala.spark.userbehavior.util
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -30,7 +30,7 @@ object Conf {
   val topics = List("userBehavior")
 
   // spark config
-//  val master = "spark://localhost:7077"
+  //val master = "spark://localhost:7077"
   val master = "local[2]"
   val checkpointDir = "./tmp"
   val streamIntervel = 3
