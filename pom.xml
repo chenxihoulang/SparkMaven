@@ -184,7 +184,7 @@
         <dependency>
             <groupId>io.spray</groupId>
             <artifactId>spray-json_2.11</artifactId>
-            <version>1.3.2</version>
+            <version>1.3.4</version>
         </dependency>
 
         <!-- Http依赖包-->
@@ -199,6 +199,30 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.9.4</version>
+        </dependency>
+
+        <dependency><!-- segment 结巴分词器 -->
+            <groupId>com.huaban</groupId>
+            <artifactId>jieba-analysis</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <dependency><!-- Html parse -->
+            <groupId>net.ruippeixotog</groupId>
+            <artifactId>scala-scraper_2.11</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency><!-- Xpath -->
+            <groupId>com.nrinaudo</groupId>
+            <artifactId>kantan.xpath-nekohtml_2.11</artifactId>
+            <version>0.5.0</version>
+        </dependency>
+
+        <!-- Json -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
         </dependency>
 
         <dependency>
