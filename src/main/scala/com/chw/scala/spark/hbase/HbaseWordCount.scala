@@ -69,6 +69,7 @@ object HbaseWordCount extends App {
                 println("开始插入数据")
                 //执行插入
                 table.put(put)
+
                 println("insert (" + record._1 + "," + record._2 + ") into hbase success.")
               } catch {
                 case e: Exception => e.printStackTrace()

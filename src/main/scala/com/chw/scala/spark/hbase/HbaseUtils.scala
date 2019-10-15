@@ -1,9 +1,11 @@
 package com.chw.scala.spark.hbase
 
 import java.io.IOException
-import org.apache.hadoop.hbase.{HBaseConfiguration, HColumnDescriptor, HConstants, HTableDescriptor, TableName}
+
+import org.apache.hadoop.hbase.{CellUtil, HBaseConfiguration, HColumnDescriptor, HConstants, HTableDescriptor, TableName}
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.hbase.util.Bytes
+
 import scala.collection.mutable.ListBuffer
 
 /**
@@ -11,10 +13,14 @@ import scala.collection.mutable.ListBuffer
  */
 object HbaseUtils {
   val configuration = HBaseConfiguration.create()
+  //hbase架构中,client是直接和zookeeper通信的,所以这里需要配置zookeeper集群地址
   configuration.set(HConstants.ZOOKEEPER_QUORUM, "hadoop07,hadoop08,hadoop09")
   configuration.set(HConstants.ZOOKEEPER_ZNODE_PARENT, "")
-  val connection = ConnectionFactory.createConnection(configuration)
-  val admin = connection.getAdmin
+
+  //建立连接
+  val connection: Connection = ConnectionFactory.createConnection(configuration)
+  //获取admin
+  val admin: Admin = connection.getAdmin
 
   /**
    * 判断表是否存在
@@ -36,14 +42,17 @@ object HbaseUtils {
   def createTable(tableName: String, columnFamilys: Array[String]) = {
     //操作的表名
     val tName = TableName.valueOf(tableName)
+
     //当表不存在的时候创建Hbase表
     if (!admin.tableExists(tName)) {
       //创建Hbase表模式
       val descriptor = new HTableDescriptor(tName)
+
       //创建列簇i
       for (columnFamily <- columnFamilys) {
         descriptor.addFamily(new HColumnDescriptor(columnFamily))
       }
+
       //创建表
       admin.createTable(descriptor)
       println(s"创建表$tableName 成功")
@@ -73,6 +82,7 @@ object HbaseUtils {
    * @param value        列值
    */
   def insertTable(tableName: String, rowkey: String, columnFamily: String, column: String, value: String) = {
+    //确定需要添加数据的表
     val table = connection.getTable(TableName.valueOf(tableName))
     //准备key 的数据
     val puts = new Put(rowkey.getBytes())
@@ -81,6 +91,29 @@ object HbaseUtils {
     //把数据插入到table中
     table.put(puts)
     println("插入数据成功")
+  }
+
+  /**
+   * 查询指定cell中的值
+   */
+  def getData(tableName: String, rowkey: String, columnFamily: String, column: String): String = {
+    val table = connection.getTable(TableName.valueOf(tableName))
+
+    //通过rowkey指定行
+    val get = new Get(rowkey.getBytes)
+    get.addFamily(columnFamily.getBytes)
+    val rs: Result = table.get(get)
+
+    //指定列名,确定cell,用于获取cell中最新timestamp对应的值
+    val cell = rs.getColumnLatestCell(columnFamily.getBytes, column.getBytes)
+
+    //获取cell的rowkey的值
+    println(Bytes.toString(CellUtil.cloneRow(cell)))
+
+    //获取cell的value值
+    val value = Bytes.toString(CellUtil.cloneValue(cell))
+
+    value
   }
 
   /**
@@ -99,9 +132,13 @@ object HbaseUtils {
     //从table中抓取数据来scan
     val scanner: ResultScanner = table.getScanner(scan)
 
-    var result = scanner.next()
+    var result: Result = scanner.next()
     //数据不为空时输出数据
     while (result != null) {
+      val cell = result.getColumnLatestCell(columnFamily.getBytes, column.getBytes)
+      println(Bytes.toString(CellUtil.cloneRow(cell)))
+      println(Bytes.toString(CellUtil.cloneValue(cell)))
+
       println(s"rowkey:${Bytes.toString(result.getRow)},列簇:${columnFamily}:${column}," +
         s"value:${Bytes.toString(result.getValue(Bytes.toBytes(columnFamily), Bytes.toBytes(column)))}")
       result = scanner.next()
@@ -129,6 +166,7 @@ object HbaseUtils {
           val family: String = Bytes.toString(cell.getFamilyArray, cell.getFamilyOffset, cell.getFamilyLength)
           val colName: String = Bytes.toString(cell.getQualifierArray, cell.getQualifierOffset, cell.getQualifierLength)
           val value: String = Bytes.toString(cell.getValueArray, cell.getValueOffset, cell.getValueLength)
+
           val context: String = "rowkey:" + row + "," + "列族:" + family + "," + "列:" + colName + "," + "值:" + value
           list += context
         }
@@ -146,10 +184,10 @@ object HbaseUtils {
   /**
    * 删除某条记录,delete 'sk:test1','1','i:name'
    *
-   * @param tableName 表名
-   * @param rowkey 行键
+   * @param tableName    表名
+   * @param rowkey       行键
    * @param columnFamily 列族
-   * @param column 列名
+   * @param column       列名
    */
   def deleteRecord(tableName: String, rowkey: String, columnFamily: String, column: String) = {
     val table = connection.getTable(TableName.valueOf(tableName))
