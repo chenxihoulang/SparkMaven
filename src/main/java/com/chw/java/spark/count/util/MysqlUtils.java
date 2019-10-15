@@ -27,6 +27,8 @@ import com.chw.java.spark.count.entity.Alarm;
 
 /**
  * 该类利用common-DBUtils提供数据库查询服务
+ * dbutils参考:https://blog.csdn.net/x_iya/article/details/72956693
+ * c3p0参考:https://blog.csdn.net/chunxiaqiudong5/article/details/52905961
  */
 public class MysqlUtils {
     private static Logger log = Logger.getLogger(MysqlUtils.class);

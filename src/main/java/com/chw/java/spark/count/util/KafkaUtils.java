@@ -17,8 +17,10 @@ public class KafkaUtils {
 	static Logger log = Logger.getLogger(KafkaUtils.class);
 
 	private static KafkaUtils instance = new KafkaUtils();
+
 	private KafkaProducer<String, byte[]> producer = null;
 	private KafkaConsumer<String, String> consumer = null;
+
 	private String producerTopic = "";
 	private boolean autoCommit = false; // 手动同步offset到zookeeper
 	private Set<TopicPartition> assginedPartitions = null;
@@ -65,6 +67,7 @@ public class KafkaUtils {
 			// "subscribe" should not be used
 			String topic = ConfigUtils.getConfig("consumer.topic");
 			List<PartitionInfo> partitionInfos = consumer.partitionsFor(topic);
+
 			LinkedList<TopicPartition> topicPartitions = new LinkedList<TopicPartition>();
 			for (PartitionInfo info : partitionInfos) {
 				log.info("topic has partition:" + info.partition());
